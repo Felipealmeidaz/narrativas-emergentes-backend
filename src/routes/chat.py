@@ -3,10 +3,14 @@ import google.generativeai as genai
 from flask import Blueprint, request, jsonify, stream_template
 import json
 import time
-from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
+# Load environment variables only in development
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    # dotenv not available in production, which is fine
+    pass
 
 chat_bp = Blueprint('chat', __name__)
 
