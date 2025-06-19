@@ -15,8 +15,13 @@ except ImportError:
 chat_bp = Blueprint('chat', __name__)
 
 # Configure Google Gemini API
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
 if not GEMINI_API_KEY:
+    # Debug: Print available environment variables for troubleshooting
+    print("Available environment variables:")
+    for key in sorted(os.environ.keys()):
+        if 'GEMINI' in key or 'API' in key or 'RAILWAY' in key:
+            print(f"  {key}: {'*' * len(os.environ[key]) if os.environ[key] else 'None'}")
     raise ValueError("GEMINI_API_KEY environment variable is required")
 
 genai.configure(api_key=GEMINI_API_KEY)
